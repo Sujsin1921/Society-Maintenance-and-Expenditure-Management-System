@@ -1,0 +1,70 @@
+{% extends 'basic.html' %}
+<!--Title-->
+{% block Title %}
+Collection
+{% endblock%}
+{% block body %}
+<div class="container">
+  <div class=balsheet>
+    <p class="marks">Total Collection : {{ bal.collection}}</p>
+    <p class="marks float-right">Balance : {{ bal.balance }}</p><br>
+    
+  </div>
+  <hr>
+<table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Payee Name</th>
+        <th scope="col">date</th>
+        <th scope="col">Payment Method</th>
+        <th scope="col">For</th>
+        <th scope="col">Flat No</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Bill</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in inv %}
+      <tr>
+        <td>{{ i.id}}</td>
+        <td>{{ i.payee_name}}</td>
+        <td>{{ i.date}}</td>
+        <td>{{ i.payment_method}}</td>
+        <td>{{ i.for_month}}</td>
+        <td>{{ i.flat_no}}</td>
+        <td>{{ i.amount}}</td>
+        <td><a href="addinvoice?id={{ i.id }}" target="_blank" class="btn btn-outline-success">Print Bill</a></td>
+        <td><a href="delinv?id={{ i.id }}" class="btn btn-outline-danger">delete</a></td>
+      </tr>
+     
+      {% endfor %}
+    </tbody>
+  </table>
+ 
+</div>
+<div class="outer-container">
+    <div class="inner-container">
+        <h5>Are You Sure you want to Delete this Invoice <br>{{dele.payee_name}} <br>
+          If Yes Please Give Reason or click on Close</h5>
+        <hr>
+        <form method="POST" action="delinv" class="form">
+            {% csrf_token %}
+            <div class="modal-body">
+    
+              <div>
+                <label class="form-label">Reason</label>
+                <input type="text" name="reason" class="form-control" required >
+              </div>
+              
+              <input type=text name="id" value="{{ dele.id }}" hidden>
+            </div>
+            <div class="modal-footer">
+              <a type="button" class="btn btn-secondary" href="Member">Close</a>
+              <input type="submit" class="btn btn-primary">
+            </div>
+          </form>
+    </div>
+  </div>
+{% endblock %}

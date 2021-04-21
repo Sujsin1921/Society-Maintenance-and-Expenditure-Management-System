@@ -1,0 +1,285 @@
+{% extends 'basic.html' %}
+<!-- Title Block-->
+{% block Title%}
+Funds
+{%endblock%}
+
+<!-- Body Block-->
+{% block body%}
+<div class="container">
+
+    <a href="#" name="Emergency Funds"></a>
+    <p class="marks">Emergency Funds</p>
+    <button class="btn btn-danger float-right" style="margin-bottom: 5px; margin-right: 5px;" data-bs-toggle="modal"
+        data-bs-target="#emergency">Contribute in Emergency</button>
+        <div class=balsheet>
+            <p class="marks">Total Collection : {{ balem.collection}}</p>
+            <p class="marks float-right">Balance : {{ balem.balance }}</p>
+        </div>
+    <hr style="color: red; ">
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Emergency</th>
+                <th>Payee Name</th>
+                <th>Date</th>
+                <th>Paymemt Method</th>
+                <th>Flat No.</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in emf %}
+            <tr>
+                <td> {{i.Emergency_purpose}} </td>
+                <td>{{ i.payee_name }}</td>
+                <td>{{ i.date }}</td>
+                <td>{{i.payment_method}}</td>
+                <td>{{ i.flat_no }}</td>
+                <td>{{ i.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- <a href="#" class="btn btn-outline-danger">Reset</a> -->
+    <hr><br>
+    <a href="#" name="FestivalFunds"></a>
+    <p class="marks">Festival Funds</p>
+    <button class="btn btn-success float-right" style="margin-bottom: 5px; margin-right: 5px;" data-bs-toggle="modal"
+        data-bs-target="#festive">Festive Contribution</button>
+    <div class=balsheet>
+        <p class="marks">Total Collection : {{ balfes.collection}}</p>
+        <p class="marks float-right">Balance : {{ balfes.balance }}</p>
+    </div>
+    <hr>
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Festival Name</th>
+                <th>Payee Name</th>
+                <th>Date</th>
+                <th>Paymemt Method</th>
+                <th>Flat No.</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in fef %}
+            <tr>
+                <td> {{i.fistival_name}} </td>
+                <td>{{ i.payee_name }}</td>
+                <td>{{ i.date }}</td>
+                <td>{{i.payment_method}}</td>
+                <td>{{ i.flat_no }}</td>
+                <td>{{ i.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- <a href="#" class="btn btn-outline-danger">Reset</a> -->
+    <hr><br>
+    <a href="#" name="SpecialPurpose"></a>
+    <p class="marks">Special Purpose Funds</p>
+    <button class="btn btn-warning float-right" style="margin-bottom: 5px; margin-right: 5px;" data-bs-toggle="modal"
+        data-bs-target="#special">Special Purpose Contribution</button>
+    <div class=balsheet>
+        <p class="marks">Total Collection : {{ balsp.collection}}</p>
+        <p class="marks float-right">Balance : {{ balsp.balance }}</p>
+    </div>
+    <hr>
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Purpose</th>
+                <th>Payee Name</th>
+                <th>Date</th>
+                <th>Paymemt Method</th>
+                <th>Flat No.</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in spf %}
+            <tr>
+                <td> {{i.special_purpose}} </td>
+                <td>{{ i.payee_name }}</td>
+                <td>{{ i.date }}</td>
+                <td>{{i.payment_method}}</td>
+                <td>{{ i.flat_no }}</td>
+                <td>{{ i.amount }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- <a href="#" class="btn btn-outline-danger">Reset</a> -->
+    <hr>
+</div>
+
+<!--Payment models-->
+
+<!--Emergrncy funds module-->
+<div class="modal fade" id="emergency" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Emergency Funds</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="emergencefunds">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div>
+                        <label class="form-label"> Emergency </label>
+                        <input type="text" name="emergency" class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-label"> Payee</label>
+                        <input type="text" name="payee" class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-label">Select Flat NO.</label>
+                        <select class="form-control" name="flat_no">
+                            <option>Please Select Flat No</option>
+                            <option value="outsider">Outsider</option>
+                            {% for i in allm %}
+                            <option value="{{i.flat_no}}">{{i.flat_no}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Contribution Amount</label>
+                        <input type="number" name='amount' class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-lable" style="padding: 7px 0px;">Mode Of Payment</label><br>
+                        <input type="radio" name='paymenttype' value="UPI">
+                        <label class="form-lable">UPI</label><br>
+                        <input type="radio" name='paymenttype' value="Cash">
+                        <label class="form-lable">Cash</label><br>
+                        <input type="radio" name='paymenttype' value="Paytm">
+                        <label class="form-lable">Paytm</label><br>
+                        <input type="radio" name='paymenttype' value="Chechek">
+                        <label class="form-lable">Chechek</label><br>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="PAY">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--Festival Funds-->
+<div class="modal fade" id="festive" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Festival Funds</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="festivefunds">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div>
+                        <label class="form-label"> Festival For </label>
+                        <input type="text" name="festive" class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-label"> Payee</label>
+                        <input type="text" name="payee" class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-label">Select Flat NO.</label>
+                        <select class="form-control" name="flat_no">
+                            <option>Please Select Flat No</option>
+                            <option value="outsider">Outsider</option>
+                            {% for i in allm %}
+                            <option value="{{i.flat_no}}">{{i.flat_no}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Contribution Amount</label>
+                        <input type="number" name='amount' class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-lable" style="padding: 7px 0px;">Mode Of Payment</label><br>
+                        <input type="radio" name='paymenttype' value="UPI">
+                        <label class="form-lable">UPI</label><br>
+                        <input type="radio" name='paymenttype' value="Cash">
+                        <label class="form-lable">Cash</label><br>
+                        <input type="radio" name='paymenttype' value="Paytm">
+                        <label class="form-lable">Paytm</label><br>
+                        <input type="radio" name='paymenttype' value="Chechek">
+                        <label class="form-lable">Chechek</label><br>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="PAY">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!--Special Funds-->
+
+<div class="modal fade" id="special" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Special Purpose Funds</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="specialfunds">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div>
+                        <label class="form-label"> Special Purpose </label>
+                        <input type="text" name="special" class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-label"> Payee</label>
+                        <input type="text" name="payee" class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-label">Select Flat NO.</label>
+                        <select class="form-control" name="flat_no">
+                            <option>Please Select Flat No</option>
+                            <option value="outsider">Outsider</option>
+                            {% for i in allm %}
+                            <option value="{{i.flat_no}}">{{i.flat_no}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Contribution Amount</label>
+                        <input type="number" name='amount' class="form-control">
+                    </div>
+                    <div>
+                        <label class="form-lable" style="padding: 7px 0px;">Mode Of Payment</label><br>
+                        <input type="radio" name='paymenttype' value="UPI">
+                        <label class="form-lable">UPI</label><br>
+                        <input type="radio" name='paymenttype' value="Cash">
+                        <label class="form-lable">Cash</label><br>
+                        <input type="radio" name='paymenttype' value="Paytm">
+                        <label class="form-lable">Paytm</label><br>
+                        <input type="radio" name='paymenttype' value="Chechek">
+                        <label class="form-lable">Chechek</label><br>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="PAY">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock%}

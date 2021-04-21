@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Bill</title>
+    <style>
+        .bill {
+            display: block;
+            padding: 10px;
+            width: 1100px;
+            margin: auto;
+            background-color: #f5f5f5;
+        }
+
+        .bill h1 {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .billarea {
+            font-size: 20px;
+            line-height: 30px;
+        }
+
+        .billarea p {
+            display: block;
+        }
+
+
+        body {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bill">
+        <div id="divContentIds">
+            <h1>Aston Co-oparative Housing Society</h1>
+            <hr>
+            <strong style="font-size: 20px;"> Invoice ID: {{inv.id}}</strong><br><br>
+            <div class="billarea">
+                <p>Name: <strong class="float-right">{{ inv.payee_name}}</strong></p>
+                <p>Flat No: <strong class="float-right">{{ inv.flat_no}}</strong></p>
+                <p>Paid For: <strong class="float-right">{{ inv.for_month}}</strong></p>
+                <p>Amount: <strong class="float-right">{{ inv.amount}}</strong></p><br><br>
+                <p class="float-right">Signature of Scratery</p>
+                <p>Date:{{inv.date}}</p>
+            </div>
+        </div>
+        <a href="Home" class="btn btn-success">GO BACK</a>
+        <a class="btn btn-primary float-right" onclick="window.print('#divContentIds')">Print</a>
+    </div>
+
+
+    <script>
+        function printDiv() {
+            var divContents = document.getElementById("divContentIds").outerHTML;
+            var a = window.open('', '', 'height=500, width=900');
+            a.document.write(divContents);
+            a.document.close();
+            a.print();
+        }
+    </script>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

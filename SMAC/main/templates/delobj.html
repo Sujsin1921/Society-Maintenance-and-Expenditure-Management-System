@@ -1,0 +1,70 @@
+{% extends 'basic.html' %}
+<!--Title-->
+{% block Title %}
+Deleted Objects
+{% endblock%}
+
+{% block body%}
+<div class="container">
+    <p class="marks">Deleted Invoice</p>
+    <hr>
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Date</th>
+                <th scope="col">Payment Method</th>
+                <th scope="col">Flat no.</th>
+                <th scope="col">Paid For</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Deletion Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in inv %}
+            <tr>
+                <td>{{ i.payee_name}}</td>
+                <td>{{ i.date}}</td>
+                <td>{{ i.payment_method}}</td>
+                <td>{{ i.flat_no}}</td>
+                <td>{{ i.for_month}}</td>
+                <td>{{i.amount}}</td>
+                <td>{{ i.del_reason}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <p class="marks">Deleted Members</p><hr>
+  <table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contact</th>
+        <th scope="col">Flat no.</th>
+        <th scope="col">Join on</th>
+        <th scope="col">Paid Upto</th>
+        <th scope="col">Paid At</th>
+        <th scope="col">Deletion Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in mem %}
+      <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.email }}</td>
+        <td>{{ i.contact }}</td>
+        <td>{{ i.flat_no }}</td>
+        <td>{{ i.join_date }}</td>
+        <td>{{ i.paid_upto }}</td>
+        <td>{{ i.date_at }}</td>
+        <td>{{ i.del_reason }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

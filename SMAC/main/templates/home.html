@@ -1,0 +1,224 @@
+{% extends 'basic.html' %}
+<!--Title-->
+{% block Title %}
+Home
+{% endblock%}
+
+{% block body%}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>Message :</strong> {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<div class="container">
+  <div class=balsheet>
+    <p class="marks">Total Collection : {{ bal.collection}}</p>
+    <p class="marks float-right">Balance : {{ bal.balance }}</p><br>
+    <p class="marks">Total Expence : {{bal.expence}}</p>
+  </div>
+  <hr>
+  <button class="btn btn-primary " style="margin-bottom: 5px;" data-bs-toggle="modal"
+    data-bs-target="#PaymentYearvise">Yearly Payment</button>
+  <button class="btn btn-primary float-right" style="margin-bottom: 5px; margin-right: 5px;" data-bs-toggle="modal"
+    data-bs-target="#PaymentMonthvise">Monthly Payment</button>
+  <br>
+    <p class="marks">Pending Payment From {{ prev2}}</p><hr>
+  <table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contact</th>
+        <th scope="col">Flat no.</th>
+        <th scope="col">Join on</th>
+        <th scope="col">Paid Upto</th>
+        <th scope="col">Paid At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in mem2 %}
+      <tr>
+        <td>{{ i.name}}</td>
+        <td>{{ i.email}}</td>
+        <td>{{ i.contact}}</td>
+        <td>{{ i.flat_no}}</td>
+        <td>{{ i.join_date}}</td>
+        <td>{{i.paid_upto}}</td>
+        <td>{{ i.date_at}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+    <p class="marks">Pending Payment From {{ prevmonth }}</p><hr>
+  <table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contact</th>
+        <th scope="col">Flat no.</th>
+        <th scope="col">Join on</th>
+        <th scope="col">Paid Upto</th>
+        <th scope="col">Paid At</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in mem %}
+      <tr>
+        <td>{{ i.name}}</td>
+        <td>{{ i.email}}</td>
+        <td>{{ i.contact}}</td>
+        <td>{{ i.flat_no}}</td>
+        <td>{{ i.join_date}}</td>
+        <td>{{i.paid_upto}}</td>
+        <td>{{ i.date_at}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<!--Payment module-->
+<!-- Button trigger modal -->
+
+<!--Year Vise-->
+<div class="modal fade" id="PaymentYearvise" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Yearly Payment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="addinvoice" >
+        {% csrf_token %}
+        <div class="modal-body">
+          <div>
+            <label class="form-label"> Payee</label>
+            <input type="text" name="payee" class="form-control">
+          </div>
+          <div>
+            <label class="form-label">Select Flat NO.</label>
+            <select class="form-control" name="flat_no">
+              <option>Please Select Flat No</option>
+              {% for i in allm %}
+
+              <option value="{{i.flat_no}}">{{i.flat_no}}</option>
+
+              {% endfor %}
+
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Paying for the Year of</label>
+            <select class=" form-control" name='month'>
+              <option value="2020">2020</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+
+            </select>
+          </div>
+          <div>
+            <label class="form-lable" style="padding: 7px 0px;">Mode Of Payment</label><br>
+            <input type="radio" name='paymenttype' value="UPI">
+            <label class="form-lable">UPI</label><br>
+            <input type="radio" name='paymenttype' value="Cash">
+            <label class="form-lable">Cash</label><br>
+            <input type="radio" name='paymenttype' value="Paytm">
+            <label class="form-lable">Paytm</label><br>
+            <input type="radio" name='paymenttype' value="Chechek">
+            <label class="form-lable">Chechek</label><br>
+          </div>
+          <div style="padding:5px 0px ;">
+            <label class="form-label " style="display:block ;text-align: right;">Bill Amount</label>
+            <label class="form-label" style="display:block ;text-align: right;"><strong>Rs.16000/-</strong></label>
+          </div>
+          <div>
+            <input type="number" value="16000" name="amount" hidden>
+            <input type="text" value="yearly" name="mode" hidden>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-primary" value="PAY">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Month Vise-->
+<div class="modal fade" id="PaymentMonthvise" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Payment</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="addinvoice" >
+        {% csrf_token %}
+        <div class="modal-body">
+          <div>
+            <label class="form-label"> Payee</label>
+            <input type="text" name="payee" class="form-control" required>
+          </div>
+          <div>
+            <label class="form-label">Select Flat NO.</label>
+            <select class="form-control" name="flat_no" required>
+              <option>Please Select Flat No</option>
+              {% for i in allm %}
+
+              <option value="{{i.flat_no}}">{{i.flat_no}}</option>
+
+              {% endfor %}
+
+            </select>
+          </div>
+          <div>
+            <label class="form-label" >Paying for the Month of</label>
+            <select class=" form-control" name="month" required>
+              <option class="chosen"></option>
+              <option value="JANUARY">JANUARY</option>
+              <option value="FEBRUARY">FEBRUARY</option>
+              <option value="MARCH">MARCH</option>
+              <option value="APRIL">APRIL</option>
+              <option value="JUNE">JUNE</option>
+              <option value="JULY">JULY</option>
+              <option value="AUGUST">AUGUST</option>
+              <option value="SEPTEMBER">SEPTEMBER</option>
+              <option value="OCTOBER">OCTOBER</option>
+              <option value="NOVEMBER">NOVEMBER</option>
+              <option value="DECEMBER">DECEMBER</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-lable" style="padding: 7px 0px;">Mode Of Payment</label><br>
+            <input type="radio" name='paymenttype' value="UPI" required>
+            <label class="form-lable">UPI</label><br>
+            <input type="radio" name='paymenttype' value="Cash" >
+            <label class="form-lable">Cash</label><br>
+            <input type="radio" name='paymenttype' value="Paytm" >
+            <label class="form-lable">Paytm</label><br>
+            <input type="radio" name='paymenttype' value="Chechek">
+            <label class="form-lable">Chechek</label><br>
+          </div>
+          <div style="padding:5px 0px ;">
+            <label class="form-label " style="display:block ;text-align: right;">Bill Amount</label>
+            <label class="form-label" style="display:block ;text-align: right;"><strong>Rs.1500/-</strong></label>
+          </div>
+          <div>
+            <input type="number" value="1500" name="amount" hidden>
+            <input type="text" value="monthly" name="mode" hidden>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-primary" value="PAY">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock%}

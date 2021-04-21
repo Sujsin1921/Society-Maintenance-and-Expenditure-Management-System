@@ -1,0 +1,82 @@
+{% extends 'basic.html' %}
+<!-- Title Block-->
+{% block Title %}
+Expences
+{% endblock%}
+<!-- Body -->
+{% block body %}
+<div class="container">
+  <div class="balsheet">
+    <p class="marks">Total Expence: {{ bal.expence }}</p>
+    <p class="marks float-right">Balance : {{ bal.balance}}</p>
+  </div>
+  <table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Title</th>
+        <th scope="col">description</th>
+        <th scope="col">expence date</th>
+        <th scope="col">Bill Amount</th>
+        <th scope="col">Image</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in exp %}
+      <tr>
+        <td>{{ i.title}}</td>
+        <td>{{ i.description}}</td>
+        <td>{{ i.expence_date}}</td>
+        <td>{{ i.bill_amount}}</td>
+        <td><a href="{{i.images.url}}" target="_blank">see bill</a></td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+  <button class='btn btn-outline-success float-right' data-bs-toggle="modal" data-bs-target="#exampleModal">ADD NEW
+    EXPENCE</button>
+</div>
+
+<!-- Adding expences-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Expence</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="POST" action="Expences" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <div class="modal-body">
+          <!--
+            <div>
+              <label class="form-label">Title</label>
+              <input type="text" name="name" class="form-control">
+            </div>
+            <div>
+              <label class="form-label">Discription</label>
+              <input type="text" name="Discription" class="form-control">
+            </div>
+            <div>
+              <label class="form-label">expences Date</label>
+              <input type="email" name="expence" class="form-control">
+            </div>
+            <div>
+              <label class="form-label">Bill Amount</label>
+              <input type="number" name="flat_no" class="form-control">
+            </div>-->
+          <div>
+            {{form}}
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock%}

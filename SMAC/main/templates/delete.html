@@ -1,0 +1,74 @@
+{% extends 'basic.html' %}
+{% block Title %}
+Members
+{% endblock%}
+
+{% block body%}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>Message :</strong> {{ message }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<div class="container">
+  <table class="table table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Contact</th>
+        <th scope="col">Flat no.</th>
+        <th scope="col">Join on</th>
+        <th scope="col">Paid Upto</th>
+        <th scope="col">Paid At</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in mem %}
+      <tr>
+        <td>{{ i.name}}</td>
+        <td>{{ i.email}}</td>
+        <td>{{ i.contact}}</td>
+        <td>{{ i.flat_no}}</td>
+        <td>{{ i.join_date}}</td>
+        <td>{{i.paid_upto}}</td>
+        <td>{{ i.date_at}}</td>
+        <td><a href="edit?id={{ i.id }}" class="btn btn-outline-warning">Edit</a> | <a href="delete?id={{ i.id }}" class="btn btn-outline-danger">delete</a></td>
+        <td></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button class='btn btn-outline-success float-right' data-bs-toggle="modal" data-bs-target="#exampleModal">Add NEW
+    MEMBER</button>
+</div>
+<div class="outer-container">
+  <div class="inner-container">
+      <h5>Are You Sure you want to Delete this Member <br>{{dele.name}} <br>
+        If Yes Please Give Reason or click on Close</h5>
+      <hr>
+      <form method="POST" action="delete" class="form">
+          {% csrf_token %}
+          <div class="modal-body">
+  
+            <div>
+              <label class="form-label">Reason</label>
+              <input type="text" name="reason" class="form-control" required >
+            </div>
+            
+            <input type=text name="id" value="{{ dele.id }}" hidden>
+          </div>
+          <div class="modal-footer">
+            <a type="button" class="btn btn-secondary" href="Member">Close</a>
+            <input type="submit" class="btn btn-primary">
+          </div>
+        </form>
+  </div>
+</div>
+<!-- all model-->
+
+<!-- adding members-->
+
+{% endblock%}
